@@ -259,6 +259,13 @@
     border:1px solid var(--line);padding:7px 14px;color:var(--text);
   }
   .modal-empty{font-family:var(--font-mono);font-size:13px;color:var(--muted);}
+  .stat-line{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+  }
+  .stat-line-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .stat-line-value{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--modal-color, var(--accent-2));}
+  .other-game-block .stat-line-value{font-size:13px;}
 
   /* primary (clicked) game section - shown bigger/first */
   .modal-primary{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);}
@@ -450,7 +457,8 @@ const CONFIG = {
     { tag: "GIR",     role: "Player", game: "Fortnite",      color: "#a3a8b0", link: "players/gir.html" },
     { tag: "DELI",    role: "Player", game: "Fortnite",      color: "#a3a8b0", link: "players/deli.html" },
     { tag: "CHRONOS", role: "Player", game: "Fortnite",      color: "#a3a8b0", link: "players/chronos.html" },
-    { tag: "NATE",    role: "Player", game: "Fortnite",      color: "#a3a8b0", link: "players/nate.html" },
+    { tag: "NATE",    role: "Player", game: "Fortnite",      color: "#a3a8b0", link: "players/nate.html",
+      profile: { rank: "Unreal", rankIcon: "unreal-icon.png", achievement: "FNCS Qualifier", earnings: "$100K+" } },
     // Valorant
     { tag: "DENTRA",  role: "Player", game: "Valorant",      color: "#8f1d28", link: "players/dentra.html" },
     { tag: "NATE",    role: "Player", game: "Valorant",      color: "#8f1d28", link: "players/nate.html" },
@@ -541,6 +549,14 @@ function statsHTML(p, emptyMsg){
     if(p.profile.mains && p.profile.mains.length){
       html += `
         <div class="mains-list" style="margin-top:12px;">${p.profile.mains.map(m => `<span class="mains-chip">${m}</span>`).join('')}</div>`;
+    }
+    if(p.profile.achievement){
+      html += `
+        <div class="stat-line"><span class="stat-line-label">Achievement</span><span class="stat-line-value">${p.profile.achievement}</span></div>`;
+    }
+    if(p.profile.earnings){
+      html += `
+        <div class="stat-line"><span class="stat-line-label">Earnings</span><span class="stat-line-value">${p.profile.earnings}</span></div>`;
     }
   }
   if(!html) html = `<div class="${emptyMsg==='other' ? 'other-game-empty' : 'modal-empty'}">${emptyMsg==='other' ? 'No stats added yet.' : 'Full player profile coming soon.'}</div>`;
